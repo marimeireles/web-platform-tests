@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<link rel="help" href="https://drafts.csswg.org/css-scroll-snap-1" />
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<style>
+#scroller {
+  width: 400px;
+  height: 400px;
+  overflow: scroll;
+  scroll-snap-type: both mandatory;
+}
+#content {
+  width: 1200px;
+  height: 12000px;
+}
+.target {
+  scroll-snap-align: start;
+  float: left;
+  height: 600px;
+}
+.wide {
+  width: 600px;
+}
+.narrow {
+  width: 500px;
+}
+</style>
+<div id="scroller">
+  <div id="content">
+    <div class="target wide"></div>
+    <div class="target wide"></div>
+    <div class="target narrow"></div>
+    <div class="target narrow"></div>
+  </div>
+</div>
+
+<script>
+test(() => {
+  var scroller = document.getElementById("scroller");
+  scroller.scrollTo(0, 0);
+  assert_equals(scroller.scrollLeft, 0);
+  scroller.scrollTo(400, 0);
+  assert_equals(scroller.scrollLeft, 600);
+}, 'Only snap to visible areas');
+</script>
